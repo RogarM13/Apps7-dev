@@ -21,6 +21,7 @@ repos:
         - "--max-line-length=88"
         # See https://github.com/PyCQA/pycodestyle/issues/373
         - "--extend-ignore=E203"
+        - "--extend-ignore=E302"
     - id: check-added-large-files
     - id: check-json
     - id: pretty-format-json

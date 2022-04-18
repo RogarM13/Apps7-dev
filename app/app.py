@@ -15,6 +15,7 @@ import pandas as pd
 import requests as r
 import structlog
 from flask import Flask, jsonify, request
+from postgres import create_table, insert_data_from_dataframe
 
 APP = Flask(__name__)
 LOG = structlog.get_logger()
@@ -52,6 +53,14 @@ def super_network_trigger(base_endpoint=BASE_ENDPOINT):
 
         LOG.info(df_req)
 
+        # always try to first create the table if not exists
+        tablecreate = create_table("daily_report")
+        LOG.info(tablecreate)
+
+        # data insert
+        datainsert = insert_data_from_dataframe(df_req, "daily_report")
+        LOG.info(datainsert)
+
     return json_response_data
 
 
@@ -68,7 +77,6 @@ def ad_umbrella_trigger(base_endpoint=BASE_ENDPOINT):
 
         # cast date in standard format
         date = datetime.strptime(date, "%Y-%m-%d")
-        date = date.strftime("%Y-%m-%d")
 
         # call the andpoint
         endpoint = (
@@ -92,5 +100,13 @@ def ad_umbrella_trigger(base_endpoint=BASE_ENDPOINT):
         assert (
             "Total" in summary
         ), "Last row was removed... But it did not contain Totals as per usual."
+
+        # always try to first create the table if not exists
+        tablecreate = create_table("daily_report")
+        LOG.info(tablecreate)
+
+        # data insert
+        datainsert = insert_data_from_dataframe(df_req, "daily_report")
+        LOG.info(datainsert)
 
     return json_response_data
