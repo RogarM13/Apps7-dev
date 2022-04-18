@@ -29,7 +29,7 @@ There is a sample script created `call_app.py` that only needs the `request` pac
 - The reasoning behind endpoint for each adNetwork is that in the description of the problem the application is supposed to be scalable to other adNetwork data. One of the ways to to that is to consider each new adNetwork as a new module/function that can be added with an additional endpoint to be called.
 - To call the service for additional adNetworks the only parameter that should be added in the scheduler is the extra api endpoint to the existing api endpoint set.
 - Postgres db is used as a "placeholder" database. In practice the database would not "come with" the service. The service would be developed based on the database that would be used.
-- For production use the service requires authentication and secrets (e.g. Github secrets, Cloud Key Management, Key Vault,...) for sensitive information
+- For production use the service requires authentication and secrets (e.g. Github secrets, Secret Manager, Key Vault,...) for sensitive information
 - The service also requires authentication
 - Before deploying into production at least some basic Unit tests must also be added. Preferably testing each component/endpoint of the application (with Python using `pytest` and `mocker`)
 
