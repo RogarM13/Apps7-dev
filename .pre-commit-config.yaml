@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v1.9.3
+    hooks:
+    - id: seed-isort-config
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v4.3.21
+    hooks:
+    - id: isort
+      additional_dependencies: ["toml"]
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    - id: flake8
+      args: # arguments to configure flake8
+        # making isort line length compatible with black
+        - "--max-line-length=88"
+        # See https://github.com/PyCQA/pycodestyle/issues/373
+        - "--extend-ignore=E203"
+    - id: check-added-large-files
+    - id: check-json
+    - id: pretty-format-json
+      args:
+        - "--autofix"
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
