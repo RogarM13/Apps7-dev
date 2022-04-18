@@ -1,10 +1,11 @@
 """
 Apps7 adNetwork ETL Application
 - runs on port 5000
-- base endpoint triggers the application workflow
+- endpoint triggers the application workflow based on the adNetwork
 - Workflow:
-    - Read input params which are: adNetwork (list), date (list)
-    - Collects and parses the data
+    - Read input params which are: adNetwork (endpoint), date (list of strings)
+    - Collects the data
+    - Parses the data
     - Writes to postgres database, table: daily_report
 """
 
@@ -16,6 +17,7 @@ import requests as r
 import structlog
 from flask import Flask, jsonify, request
 from postgres import create_table, insert_data_from_dataframe
+from waitress import serve
 
 APP = Flask(__name__)
 LOG = structlog.get_logger()
@@ -114,6 +116,4 @@ def ad_umbrella_trigger(base_endpoint=BASE_ENDPOINT):
 
 
 if __name__ == "__main__":
-    from waitress import serve
-
     serve(APP, host="0.0.0.0", port=5000)
