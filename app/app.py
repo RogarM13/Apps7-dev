@@ -66,7 +66,7 @@ def super_network_trigger(base_endpoint=BASE_ENDPOINT):
 
 @APP.route("/AdUmbrella", methods=["POST"])
 def ad_umbrella_trigger(base_endpoint=BASE_ENDPOINT):
-    LOG.info("SuperNetwork trigger called")
+    LOG.info("AdUmbrella trigger called")
     data = request.get_json()
     json_response_data = jsonify(data)
     dict_data = json.loads(data)
@@ -86,20 +86,21 @@ def ad_umbrella_trigger(base_endpoint=BASE_ENDPOINT):
         req = r.get(endpoint)
 
         req_list = [
-            [el.strip("\r").rstrip(" (usd)") for el in line.split(",")]
-            for line in req.text.split("\n")
+            [el.strip("\r") for el in line.split(",")] for line in req.text.split("\n")
         ]
         headers = req_list.pop(0)
-        summary = req_list.pop(-1)
-        df_req = pd.DataFrame(req_list, columns=headers)
 
+        # check if totals in the last row of the table:
+        if "Totals" in req_list[-1]:
+            req_list.pop(-1)
+            LOG.warning("Last row was removed... It contained summary information.")
+
+        df_req = pd.DataFrame(req_list, columns=headers)
+        df_req = df_req.rename(columns={"Revenue (usd)": "Revenue"})
         df_req["Currency"] = "USD"
         df_req["Date"] = pd.to_datetime(df_req["Date"])
 
         LOG.info(df_req)
-        assert (
-            "Total" in summary
-        ), "Last row was removed... But it did not contain Totals as per usual."
 
         # always try to first create the table if not exists
         tablecreate = create_table("daily_report")

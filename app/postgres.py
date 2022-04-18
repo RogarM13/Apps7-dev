@@ -1,7 +1,11 @@
+"""
+Postgres connection & support functions
+"""
+
 import psycopg2
 import psycopg2.extras as extras
 
-# postgres config (in prod would go to secrets)
+# postgres config (in production would go to secrets)
 POSTGRES_HOST = "127.0.0.1"
 POSTGRES_PORT = "5432"
 POSTGRES_DATABASE = "postgres"
@@ -41,7 +45,7 @@ def create_table(table_name: str, conn=conn):
         return f"Table could not be created. Error occured: {e}"
 
     cur.close()
-    return "Table created."
+    return "Table exists/created."
 
 
 def insert_data_from_dataframe(df, table_name: str, conn=conn):
