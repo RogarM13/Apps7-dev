@@ -1,4 +1,4 @@
-version: '3.8'
+version: '1.0'
 services:
   db:
     image: postgres:14.1-alpine
@@ -9,24 +9,22 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - localdb:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
   app:
     build:
       context: ./
       dockerfile: Dockerfile
     restart: always
     environment:
-      - POSTGRES_HOST = database
-      - POSTGRES_PORT = 5432
-      - POSTGRES_DATABASE = postgres
-      - POSTGRES_USER = postgres
-      - POSTGRES_PASSWORD = postpass123!
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postpass123!
     ports:
       - '5000:5000'
     depends_on:
       - 'db'
-    links:
-      - "db:database"
 volumes:
-  localdb:
+  db:
     driver: local
