@@ -30,8 +30,11 @@ def super_network_trigger(base_endpoint = BASE_ENDPOINT):
   LOG.info(dict_data)
   # iterate through dates
   for date in dict_data["date"]:
-
+    
+    # cast date in standard format
     date = date.strftime("%Y-%m-%d")
+    
+    # call the andpoint
     endpoint = base_endpoint + f"supernetwork/report/daily/{date}.csv"
     req = r.get(endpoint)
 
@@ -59,7 +62,10 @@ def super_network_trigger(base_endpoint = BASE_ENDPOINT):
   # iterate through dates
   for date in dict_data["date"]:
 
+    # cast date in standard format
     date = date.strftime("%Y-%m-%d")
+
+    # call the andpoint
     endpoint = base_endpoint + f"reporting/adumbrella/adumbrella-{date.day}_{date.month}_{date.year}.csv"
     req = r.get(endpoint)
 
@@ -73,6 +79,6 @@ def super_network_trigger(base_endpoint = BASE_ENDPOINT):
 
     LOG.info(df_req)
     assert "Total" in summary, "Last row was removed... But it did not contain Totals as per usual."
-    
+
   return json_response_data
 
