@@ -63,6 +63,7 @@ def super_network_trigger(base_endpoint = BASE_ENDPOINT):
   for date in dict_data["date"]:
 
     # cast date in standard format
+    # some new comment
     date = date.strftime("%Y-%m-%d")
 
     # call the andpoint
