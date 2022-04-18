@@ -2,15 +2,17 @@
 Postgres connection & support functions
 """
 
+import os
+
 import psycopg2
 import psycopg2.extras as extras
 
 # postgres config (in production would go to secrets)
-POSTGRES_HOST = "127.0.0.1"
-POSTGRES_PORT = "5432"
-POSTGRES_DATABASE = "postgres"
-POSTGRES_USER = "postgres"
-POSTGRES_PASSWORD = "postpass123!"
+POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 
 conn = psycopg2.connect(
     database=POSTGRES_DATABASE,

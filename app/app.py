@@ -111,3 +111,9 @@ def ad_umbrella_trigger(base_endpoint=BASE_ENDPOINT):
         LOG.info(datainsert)
 
     return json_response_data
+
+
+if __name__ == "__main__":
+    from waitress import serve
+
+    serve(APP, host="0.0.0.0", port=5000)
